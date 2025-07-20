@@ -1,0 +1,23 @@
+[
+  { "name": "Max Verstappen", "nationality": "Netherlands", "team": "Red Bull Racing", "points": 452 },
+  { "name": "Charles Leclerc", "nationality": "Monaco", "team": "Ferrari", "points": 398 },
+  { "name": "Lewis Hamilton", "nationality": "United Kingdom", "team": "Mercedes", "points": 376 },
+  { "name": "Lando Norris", "nationality": "United Kingdom", "team": "McLaren", "points": 342 },
+  { "name": "Carlos Sainz", "nationality": "Spain", "team": "Ferrari", "points": 320 },
+  { "name": "George Russell", "nationality": "United Kingdom", "team": "Mercedes", "points": 298 },
+  { "name": "Sergio Perez", "nationality": "Mexico", "team": "Red Bull Racing", "points": 265 },
+  { "name": "Oscar Piastri", "nationality": "Australia", "team": "McLaren", "points": 254 },
+  { "name": "Fernando Alonso", "nationality": "Spain", "team": "Aston Martin", "points": 242 },
+  { "name": "Lance Stroll", "nationality": "Canada", "team": "Aston Martin", "points": 185 },
+  { "name": "Pierre Gasly", "nationality": "France", "team": "Alpine", "points": 172 },
+  { "name": "Esteban Ocon", "nationality": "France", "team": "Alpine", "points": 168 },
+  { "name": "Yuki Tsunoda", "nationality": "Japan", "team": "RB", "points": 142 },
+  { "name": "Daniel Ricciardo", "nationality": "Australia", "team": "RB", "points": 132 },
+  { "name": "Valtteri Bottas", "nationality": "Finland", "team": "Stake F1 Team", "points": 118 },
+  { "name": "Zhou Guanyu", "nationality": "China", "team": "Stake F1 Team", "points": 107 },
+  { "name": "Kevin Magnussen", "nationality": "Denmark", "team": "Haas", "points": 94 },
+  { "name": "Nico Hülkenberg", "nationality": "Germany", "team": "Haas", "points": 88 },
+  { "name": "Logan Sargeant", "nationality": "United States", "team": "Williams", "points": 65 },
+  { "name": "Alex Albon", "nationality": "Thailand", "team": "Williams", "points": 59 },
+  { "name": "Oliver Bearman", "nationality": "United Kingdom", "team": "Haas", "points": 28 }
+]

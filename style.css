@@ -1,0 +1,37 @@
+
+html {
+  scroll-behavior: smooth;
+}
+
+.oval-nav {
+            border-radius: 100px;
+            background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+        }
+        .nav-link {
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .nav-link:hover {
+            transform: translateY(-2px);
+            color: #dc2626 !important;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: #dc2626;
+            transition: width 0.3s ease;
+        }
+.nav-link:hover::after {
+            width: 60%;
+        }
+ .track-nav-btn {
+            transition: all 0.3s ease;
+        }
+        .track-nav-btn:hover {
+            transform: scale(1.1);
+        }
