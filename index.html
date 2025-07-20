@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F1 Prediction</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    
+</head>
+<body class="bg-black min-h-screen flex flex-col items-center p-4 scroll-smooth">
+
+    <!-- My navigation Bar -->
+    <nav class="oval-nav fixed top-5 left-1/2 transform -translate-x-1/2 shadow-lg w-[600px] bg-neutral-900 rounded-full flex items-center justify-between px-8 py-4 z-50">
+
+        <div class="text-red-600 text-2xl mr-4">
+            <i class="fas fa-flag-checkered"></i>
+        </div>
+        <div class="flex-1 flex justify-center space-x-8">
+            <a href="#single-driver-form" class="nav-link text-gray-300 hover:text-red-600 font-medium">
+                Prediction
+            </a>
+            <a href="#tracks" class="nav-link text-gray-700 hover:text-blue-500 font-medium">
+                Tracks
+            </a>
+             <a href="#top_home" class="nav-link text-gray-700 hover:text-blue-500 font-medium">
+                Home
+            </a>
+        </div>
+        
+    </nav>
+    
+    <div class="w-full mt-6", id="top_home">
+        <img src="{{ url_for('static', filename='images/car1.jpg') }}" alt="F1 Banner" class="w-full h-auto object-cover">
+    </div>
+    <div class="mt-16 w-full max-w-6xl">
+    <h2 class="text-4xl font-bold text-red-600 mb-10 text-center">2025 F1 TRACKS</h2>
+
+    <div class="relative">
+        <!-- Track Image -->
+        <div id="tracks" class="relative overflow-hidden rounded-lg shadow-2xl">
+            <img id="track-image" src="https://media.formula1.com/image/upload/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Bahrain_Circuit.png.transform/8col-retina/image.png" 
+                 alt="Current Track" 
+                 class="w-full h-[700px] object-cover opacity-90 transition-all duration-300">
+            
+            <!-- Track Name Overlay -->
+            <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-70 p-6">
+                <h3 id="track-name" class="text-3xl font-bold text-white text-center">Bahrain International Circuit</h3>
+            </div>
+        </div>
+        
+        <!-- Navigation Buttons -->
+        <button id="prev-track" class="absolute left-4 top-1/2 -translate-y-1/2 bg-black bg-opacity-70 text-white p-4 rounded-full hover:bg-red-600 transition">
+            <i class="fas fa-chevron-left text-xl"></i>
+        </button>
+        <button id="next-track" class="absolute right-4 top-1/2 -translate-y-1/2 bg-black bg-opacity-70 text-white p-4 rounded-full hover:bg-red-600 transition">
+            <i class="fas fa-chevron-right text-xl"></i>
+        </button>
+    </div>
+</div>
+
+
+<div class="mt-16 w-full max-w-4xl">
+        <h2 class="text-3xl font-bold text-red-600 mb-8 text-center">MAKE YOUR PREDICTION</h2>
+        
+        <div class="sqaure-nav p-8">
+           <div class="sqaure-nav p-8">
+            <div class="flex space-x-4 mb-6">
+                <button id="single-driver-btn" class="flex-1 bg-red-600 text-white font-bold py-3 px-4 rounded-lg transition duration-300">
+                    Single Driver Prediction
+                </button>
+                <button id="full-race-btn" class="flex-1 bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 px-4 rounded-lg transition duration-300">
+                    Full Race Prediction
+                </button>
+            </div>
+
+            <!-- Single Driver Form -->
+            <form id="single-driver-form" method="POST" action="/predict-driver" class="space-y-6">
+                <div>
+                    <label for="driver" class="block text-gray-300 mb-2">Driver Name</label>
+                    <select id="driver" name="driver" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-red-600">
+                        <option value="">Select a driver</option>
+                       {% for driver in drivers %}
+                        <option value="{{ driver }}">{{ driver | capitalize }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div>
+                    <label for="circuit"  class="block text-gray-300 mb-2">Circuit Name</label>
+                    <select id="circuit"  name="circuit" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-red-600">
+                        <option value="">Select a circuit</option>
+                            {% for circuit in circuits %}
+                                <option value="{{ circuit }}">{{ circuit }}</option>
+                            {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="grid grid-cols-3 gap-4">
+                    <div>
+                        <label for="q1" class="block text-gray-300 mb-2">Q1 Time</label>
+                        <input type="text" id="q1" placeholder="mm:ss.sss" name="q1" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-red-600">
+                    </div>
+                    <div>
+                        <label for="q2" class="block text-gray-300 mb-2">Q2 Time</label>
+                        <input type="text" id="q2" placeholder="mm:ss.sss"  name="q2" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-red-600">
+                    </div>
+                    <div>
+                        <label for="q3" class="block text-gray-300 mb-2">Q3 Time</label>
+                        <input type="text" id="q3" placeholder="mm:ss.sss" name="q3" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-red-600">
+                    </div>
+                </div>
+
+                <div>
+                    <label for="grid-position" class="block text-gray-300 mb-2">Grid Position</label>
+                    <input type="number" name="grid_position" id="grid-position" min="1" max="20" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-red-600">
+                </div>
+                
+                
+                <div class="flex items-center">
+                   <input type="checkbox" id="use-previous" name="use_previous" class="w-4 h-4 text-red-600 bg-gray-800 border-gray-700 rounded focus:ring-red-600">
+
+                    <label for="use-previous" class="ml-2 text-gray-300">Use previous race results as reference</label>
+                </div>
+                <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300">
+                    Run Model
+                </button>
+            </form>
+             <div id="prediction-results" class="hidden mt-8 bg-black-800 rounded-lg p-6 border border-red-600">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-red-600">PREDICT RESULTS</h3>
+                    <button id="close-results" class="text-gray-400 hover:text-white">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-gray-400">Driver:</p>
+                        <p id="result-driver" class="text-white font-medium"></p>
+                    </div>
+                    <div>
+                        <p class="text-gray-400">Circuit:</p>
+                        <p id="result-circuit" class="text-white font-medium"></p>
+                    </div>
+                    <div>
+                        <p class="text-gray-400">Grid Position:</p>
+                        <p id="result-grid" class="text-white font-medium"></p>
+                    </div>
+                    
+                      <div>
+                        <p class="text-gray-400">Ending Top 3:</p>
+                       <p id="podium" class="text-white font-medium"></p>
+
+                    </div>
+                     <div>
+                        <p class="text-gray-400">confidence Interval:</p>
+                        <p id="confidence" class="text-white font-medium"></p>
+                    </div>
+                    
+                </div>
+                
+            </div>
+<!-- Error Alert Container -->
+<div id="full-race-error" class="hidden mb-4"></div>
+
+            <form id="full-race-form" method="post" action="/full_race" class="space-y-6 hidden">
+    <div>
+        <label for="race-circuit" class="block text-gray-300 mb-2">Circuit Name</label>
+        <select id="race-circuit" name="race_circuit" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-red-600">
+            <option value="">Select a circuit</option>
+            {% for circuit in circuits_2025 %}
+                <option value="{{ circuit }}">{{ circuit }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="space-y-4">
+        <h3 class="text-xl font-bold text-white">Qualifying Times</h3>
+        <div class="grid grid-cols-5 gap-4 mb-2">
+            <div class="font-bold text-gray-300">Driver</div>
+            <div class="font-bold text-gray-300">Q1</div>
+            <div class="font-bold text-gray-300">Q2</div>
+            <div class="font-bold text-gray-300">Q3</div>
+            <div class="font-bold text-gray-300">Grid</div>
+        </div>
+
+        {% for driver in drivers_2025 %}
+        <div class="grid grid-cols-5 gap-4 items-center">
+            <div class="text-gray-300 font-medium">{{ driver | replace('_', ' ') | title }}</div>
+            <input type="text" name="q1_{{ driver }}" placeholder="mm:ss.sss" class="bg-gray-800 border border-gray-700 rounded px-3 py-2 text-white">
+            <input type="text" name="q2_{{ driver }}" placeholder="mm:ss.sss" class="bg-gray-800 border border-gray-700 rounded px-3 py-2 text-white">
+            <input type="text" name="q3_{{ driver }}" placeholder="mm:ss.sss" class="bg-gray-800 border border-gray-700 rounded px-3 py-2 text-white">
+            <input type="number" name="grid_{{ driver }}" min="1" max="20" class="bg-gray-800 border border-gray-700 rounded px-3 py-2 text-white">
+        </div>
+        {% endfor %}
+
+        <div class="flex items-center mt-4">
+            <input type="checkbox" id="use-previous-full" name="use_previous_full" class="w-4 h-4 text-red-600 bg-gray-800 border-gray-700 rounded focus:ring-red-600">
+            <label for="use-previous-full" class="ml-2 text-gray-300">Use previous race results as reference</label>
+        </div>
+
+        <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300">
+            Predict Full Race
+        </button>
+    </div>
+</form>
+
+<!-- Chart Display Area -->
+<div id="full-race-charts" class="mt-16 w-full max-w-6xl hidden">
+  <h2 class="text-3xl font-bold text-red-600 mb-6 text-center">Full Race Bar Charts</h2>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <canvas id="chart-podium-0"></canvas>
+    <canvas id="chart-podium-1"></canvas>
+  </div>
+</div>
+
+<!-- Add Chart.js CDN in <head> -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+
+
+<script>
+   
+    document.getElementById("full-race-btn").addEventListener("click", function() {
+    document.getElementById("full-race-form").classList.remove("hidden"),
+    document.getElementById("single-driver-form").classList.add("hidden")
+    });
+
+    document.getElementById("single-driver-btn").addEventListener("click", function() {
+    document.getElementById("full-race-form").classList.add("hidden"),
+    document.getElementById("single-driver-form").classList.remove("hidden")
+      document.getElementById("full-race-charts").classList.add("hidden")
+    });
+
+   document.getElementById("single-driver-form").addEventListener("submit", function (e) {
+    e.preventDefault(); // prevent full page reload
+
+    const formData = new FormData(this);
+
+    fetch("/predict-driver", {
+        method: "POST",
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("result-driver").textContent = data.driver;
+        document.getElementById("result-circuit").textContent = data.circuit;
+        document.getElementById("result-grid").textContent = data.grid;
+        document.getElementById("podium").textContent = data.podium;
+        document.getElementById("confidence").textContent= data.confidence
+
+        document.getElementById("prediction-results").classList.remove("hidden");
+    })
+    .catch(err => {
+        console.error("Prediction error:", err);
+    });
+});
+
+document.getElementById("full-race-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const formData = new FormData(this);
+
+    fetch("/full_race", {
+        method: "POST",
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        console.log("Full Race Predictions:", data.predictions);
+       
+    })
+    .catch(err => {
+        console.error("Full Race Prediction Error:", err);
+    });
+});
+
+
+document.getElementById("close-results").addEventListener("click", function () {
+    document.getElementById("prediction-results").classList.add("hidden");
+});
+        // Track data
+      const tracks = [
+  {
+    name: "Bahrain International Circuit",
+    image: "https://media.formula1.com/image/upload/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Bahrain_Circuit.png.transform/8col-retina/image.png"
+  },
+  {
+    name: "Jeddah Corniche Circuit",
+    image: "https://media.formula1.com/image/upload/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Saudi_Arabia_Circuit.png.transform/8col-retina/image.png"
+  },
+  {
+    name: "Albert Park Circuit",
+    image: "https://media.formula1.com/image/upload/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Australia_Circuit.png.transform/8col-retina/image.png"
+  },
+  {
+    name: "Suzuka International Racing Course",
+    image: "https://media.formula1.com/image/upload/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Japan_Circuit.png.transform/8col-retina/image.png"
+  },
+  {
+    name: "Shanghai International Circuit",
+    image: "https://media.formula1.com/image/upload/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/China_Circuit.png.transform/8col-retina/image.png"
+  },
+  {
+    name: "Miami International Autodrome",
+    image: "https://media.formula1.com/image/upload/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Miami_Circuit.png.transform/8col-retina/image.png"
+  },
+  {
+    name: "Imola Circuit",
+    image: "https://media.formula1.com/image/upload/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Emilia_Romagna_Circuit.png.transform/8col-retina/image.png"
+  },
+  {
+    name: "Circuit de Monaco",
+    image: "https://media.formula1.com/image/upload/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Monaco_Circuit.png.transform/8col-retina/image.png"
+  },
+  {
+    name: "Circuit de Barcelona-Catalunya",
+    image: "https://media.formula1.com/image/upload/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Spain_Circuit.png.transform/8col-retina/image.png"
+  },
+  {
+    name: "Circuit Gilles-Villeneuve",
+    image: "https://media.formula1.com/image/upload/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Canada_Circuit.png.transform/8col-retina/image.png"
+  },
+  {
+    name: "Red Bull Ring",
+    image: "https://media.formula1.com/image/upload/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Austria_Circuit.png.transform/8col-retina/image.png"
+  },
+  {
+    name: "Silverstone Circuit",
+    image: "https://media.formula1.com/image/upload/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Great_Britain_Circuit.png.transform/8col-retina/image.png"
+  },
+  {
+    name: "Hungaroring",
+    image: "https://media.formula1.com/image/upload/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Hungary_Circuit.png.transform/8col-retina/image.png"
+  },
+  {
+    name: "Circuit de Spa-Francorchamps",
+    image: "https://media.formula1.com/image/upload/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Belgium_Circuit.png.transform/8col-retina/image.png"
+  },
+  {
+    name: "Zandvoort Circuit",
+    image: "https://media.formula1.com/image/upload/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Netherlands_Circuit.png.transform/8col-retina/image.png"
+  },
+  {
+    name: "Monza Circuit",
+    image: "https://media.formula1.com/image/upload/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Italy_Circuit.png.transform/8col-retina/image.png"
+  },
+  {
+    name: "Baku City Circuit",
+    image: "https://media.formula1.com/image/upload/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Azerbaijan_Circuit.png.transform/8col-retina/image.png"
+  },
+  {
+    name: "Singapore Street Circuit",
+    image: "https://media.formula1.com/image/upload/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Singapore_Circuit.png.transform/8col-retina/image.png"
+  },
+  {
+    name: "Losail International Circuit",
+    image: "https://media.formula1.com/image/upload/content/dam/fom-website/manual/Misc/Qatar/Qatar_Circuit.png.transform/8col-retina/image.png"
+  },
+  {
+    name: "Circuit of The Americas",
+    image: "https://media.formula1.com/image/upload/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/USA_Circuit.png.transform/8col-retina/image.png"
+  },
+  {
+    name: "Autódromo Hermanos Rodríguez",
+    image: "https://media.formula1.com/image/upload/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Mexico_Circuit.png.transform/8col-retina/image.png"
+  },
+  {
+    name: "Interlagos Circuit",
+    image: "https://media.formula1.com/image/upload/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Brazil_Circuit.png.transform/8col-retina/image.png"
+  },
+  {
+    name: "Las Vegas Street Circuit",
+    image: "https://media.formula1.com/image/upload/content/dam/fom-website/manual/Las_Vegas/Las_Vegas_Circuit.png.transform/8col-retina/image.png"
+  },
+  {
+    name: "Yas Marina Circuit",
+    image: "https://media.formula1.com/image/upload/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Abu_Dhabi_Circuit.png.transform/8col-retina/image.png"
+  }
+];
+
+
+        let currentTrackIndex = 0;
+
+        function updateTrackDisplay() {
+            document.getElementById('track-image').src = tracks[currentTrackIndex].image;
+            document.getElementById('track-name').textContent = tracks[currentTrackIndex].name;
+        }
+
+        document.getElementById('next-track').addEventListener('click', () => {
+            currentTrackIndex = (currentTrackIndex + 1) % tracks.length;
+            updateTrackDisplay();
+        });
+
+        document.getElementById('prev-track').addEventListener('click', () => {
+            currentTrackIndex = (currentTrackIndex - 1 + tracks.length) % tracks.length;
+            updateTrackDisplay();
+        });
+function renderBarChart(canvasId, title, labels, data, color) {
+    new Chart(document.getElementById(canvasId), {
+        type: "bar",
+        data: {
+            labels: labels,
+            datasets: [{
+                label: "Confidence",
+                data: data,
+                backgroundColor: color,
+                borderRadius: 6,
+                borderWidth: 1,
+                borderColor: "#333"
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        color: "white"
+                    },
+                    grid: {
+                        color: "#444"
+                    }
+                },
+                x: {
+                    ticks: {
+                        color: "white"
+                    },
+                    grid: {
+                        color: "#444"
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    labels: {
+                        color: "white"
+                    }
+                },
+                title: {
+                    display: true,
+                    text: title,
+                    color: "white",
+                    font: {
+                        size: 18
+                    }
+                },
+                tooltip: {
+                    backgroundColor: "#222",
+                    titleColor: "white",
+                    bodyColor: "white"
+                }
+            },
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
+            elements: {
+                bar: {
+                    borderSkipped: false
+                }
+            }
+        }
+    });
+}
+// muhehheheh
+document.getElementById("full-race-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const circuit = document.getElementById("race-circuit").value;
+    const usePrevious = document.getElementById("use-previous-full").checked;
+    const errorBox = document.getElementById("full-race-error");
+
+    // Clear any existing alert
+    errorBox.innerHTML = "";
+    errorBox.classList.add("hidden");
+
+    // Show alert helper function
+    function showError(message) {
+        errorBox.innerHTML = `
+        <div role="alert" class="alert alert-error bg-red-700 text-white rounded-lg p-4 flex items-center space-x-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>${message}</span>
+        </div>`;
+        errorBox.classList.remove("hidden");
+    }
+
+    // Validate circuit
+    if (!circuit) {
+        showError("Please select a circuit.");
+        return;
+    }
+
+    // If checkbox is NOT checked, validate fields
+    if (!usePrevious) {
+        const inputs = document.querySelectorAll("#full-race-form input[type='text'], #full-race-form input[type='number']");
+        let incomplete = false;
+
+        inputs.forEach(input => {
+            if (!input.value.trim()) {
+                incomplete = true;
+            }
+        });
+
+        if (incomplete) {
+            showError("Please fill all Q1/Q2/Q3/Grid fields or check the 'Use previous race results' box.");
+            return;
+        }
+    }
+
+    // ✅ Proceed if validation passed
+    const formData = new FormData(this);
+
+    fetch("/full_race", {
+        method: "POST",
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        const predictions = data.predictions;
+
+        const podium0 = predictions.filter(p => p.podium === 0);
+        const podium1 = predictions.filter(p => p.podium === 1);
+
+        const labels0 = podium0.map(p => p.driver);
+        const confidences0 = podium0.map(p => p.confidence);
+
+        const labels1 = podium1.map(p => p.driver);
+        const confidences1 = podium1.map(p => p.confidence);
+
+        const container = document.getElementById("full-race-charts");
+        container.classList.remove("hidden");
+
+        container.innerHTML = `
+            <h2 class="text-3xl font-bold text-red-600 mb-8 text-center">FULL RACE PREDICTION SUMMARY</h2>
+            <div class="space-y-12">
+                <div class="h-[350px]">
+                    <canvas id="chart-podium-0" style="background-color: transparent;"></canvas>
+                </div>
+                <div class="h-[350px]">
+                    <h3 class="text-white text-xl text-center mb-2">Podium Finish</h3>
+                    <canvas id="chart-podium-1" style="background-color: transparent;"></canvas>
+                </div>
+            </div>
+        `;
+
+        renderBarChart("chart-podium-0", "Drivers Not on Podium", labels0, confidences0, 'rgba(255, 99, 132, 0.8)');
+        renderBarChart("chart-podium-1", "Drivers on Podium", labels1, confidences1, 'rgba(75, 192, 192, 0.8)');
+    })
+    .catch(err => {
+        console.error("Full Race Prediction Error:", err);
+        showError("An error occurred during prediction. Please try again.");
+    });
+});
+
+//muhehehe
+// Full Race Form Submission
+
+
+    </script>
+</body>
+
+
+</html>
