@@ -28,7 +28,6 @@ The core goal of this project is to:
 
 - **Problem Type:** Binary Classification (Podium vs. No Podium)
 - **Model Used:** `RandomForestClassifier` (Best performer via GridSearchCV)
-- **Other Models Tried:** Logistic Regression, XGBoost, SVC, etc.
 - **Data Pipeline:** Includes preprocessing, feature selection, and encoding.
 - **Total Features:** 33 core features → Expanded to **85** after one-hot encoding.
 
